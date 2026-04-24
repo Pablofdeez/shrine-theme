@@ -39,6 +39,8 @@
       <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 
+    {{ 'shrine-custom.css' | asset_url | stylesheet_tag }}
+
     {{ content_for_header }}
 
     {%- liquid
@@ -372,5 +374,34 @@
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
+
+    <script>
+      // Sticky header shadow on scroll
+      (function () {
+        var header = document.querySelector('.section-header');
+        if (!header) return;
+        window.addEventListener('scroll', function () {
+          header.classList.toggle('scrolled', window.scrollY > 10);
+        }, { passive: true });
+      })();
+
+      // Reveal on scroll for .shrine-reveal elements
+      (function () {
+        var els = document.querySelectorAll('.shrine-reveal');
+        if (!els.length || !('IntersectionObserver' in window)) {
+          els.forEach(function (el) { el.classList.add('is-visible'); });
+          return;
+        }
+        var obs = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) {
+              e.target.classList.add('is-visible');
+              obs.unobserve(e.target);
+            }
+          });
+        }, { threshold: 0.12 });
+        els.forEach(function (el) { obs.observe(el); });
+      })();
+    </script>
   </body>
 </html>

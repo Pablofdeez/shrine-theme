@@ -1,0 +1,430 @@
+/* ============================================
+   SHRINE BABY — Custom Design System
+   Paleta morado suave para tienda de bebés
+   ============================================ */
+
+/* ---------- Variables globales ---------- */
+:root {
+  --shrine-purple-deep:    #2D1B4E;
+  --shrine-purple-mid:     #7B5EA7;
+  --shrine-purple-light:   #C9B0E8;
+  --shrine-purple-pale:    #F0E8FF;
+  --shrine-bg:             #FDFAFF;
+  --shrine-white:          #FFFFFF;
+
+  --shrine-font-heading:   'Cormorant Garamond', Georgia, serif;
+  --shrine-font-body:      'Nunito', 'Helvetica Neue', sans-serif;
+
+  --shrine-radius-sm:      8px;
+  --shrine-radius-md:      16px;
+  --shrine-radius-lg:      32px;
+  --shrine-radius-pill:    999px;
+
+  --shrine-transition:     0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* ---------- Tipografía global ---------- */
+body {
+  font-family: var(--shrine-font-body);
+  background-color: var(--shrine-bg);
+  color: var(--shrine-purple-deep);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4 {
+  font-family: var(--shrine-font-heading);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--shrine-purple-deep);
+}
+
+/* ---------- Announcement bar ---------- */
+.announcement-bar {
+  background: var(--shrine-purple-deep);
+  color: var(--shrine-white);
+  font-family: var(--shrine-font-body);
+  font-size: 1.3rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 1rem 0;
+}
+
+.announcement-bar a {
+  color: var(--shrine-purple-light);
+}
+
+/* ---------- Header / Navegación ---------- */
+.section-header {
+  background: rgba(253, 250, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(123, 94, 167, 0.12);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: box-shadow var(--shrine-transition);
+}
+
+.section-header.scrolled {
+  box-shadow: 0 4px 24px rgba(45, 27, 78, 0.08);
+}
+
+.header__heading-link,
+.header__heading {
+  font-family: var(--shrine-font-heading);
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: var(--shrine-purple-deep);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.header__menu-item a,
+.list-menu__item a {
+  font-family: var(--shrine-font-body);
+  font-size: 1.3rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--shrine-purple-deep);
+  transition: color var(--shrine-transition);
+}
+
+.header__menu-item a:hover,
+.list-menu__item a:hover {
+  color: var(--shrine-purple-mid);
+}
+
+/* ---------- Botones ---------- */
+.button,
+.btn,
+button.shopify-payment-button__button {
+  font-family: var(--shrine-font-body);
+  font-size: 1.3rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: var(--shrine-radius-pill);
+  padding: 1.4rem 3.2rem;
+  transition: all var(--shrine-transition);
+  cursor: pointer;
+}
+
+.button--primary {
+  background: var(--shrine-purple-mid);
+  color: var(--shrine-white);
+  border: 2px solid var(--shrine-purple-mid);
+}
+
+.button--primary:hover {
+  background: var(--shrine-purple-deep);
+  border-color: var(--shrine-purple-deep);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(123, 94, 167, 0.3);
+}
+
+.button--secondary {
+  background: transparent;
+  color: var(--shrine-purple-mid);
+  border: 2px solid var(--shrine-purple-mid);
+}
+
+.button--secondary:hover {
+  background: var(--shrine-purple-mid);
+  color: var(--shrine-white);
+  transform: translateY(-2px);
+}
+
+/* ---------- Cards de producto ---------- */
+.card-wrapper,
+.card {
+  border-radius: var(--shrine-radius-md) !important;
+  overflow: hidden;
+  transition: transform var(--shrine-transition), box-shadow var(--shrine-transition);
+}
+
+.card-wrapper:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 48px rgba(45, 27, 78, 0.12);
+}
+
+.card__media img {
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.card-wrapper:hover .card__media img {
+  transform: scale(1.04);
+}
+
+.card__heading a {
+  font-family: var(--shrine-font-heading);
+  font-size: 1.8rem;
+  color: var(--shrine-purple-deep);
+}
+
+.price {
+  color: var(--shrine-purple-mid);
+  font-weight: 700;
+}
+
+/* ---------- Hero / Slideshow ---------- */
+.slideshow {
+  position: relative;
+  overflow: hidden;
+}
+
+.slideshow__slide {
+  min-height: 85vh;
+}
+
+.slideshow__text-wrapper h2,
+.banner__heading {
+  font-family: var(--shrine-font-heading);
+  font-size: clamp(3.6rem, 7vw, 7.2rem);
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--shrine-white);
+  text-shadow: 0 2px 20px rgba(45, 27, 78, 0.3);
+}
+
+/* ---------- Sección multicolumna (beneficios) ---------- */
+.multicolumn {
+  background: var(--shrine-purple-pale);
+  padding: 8rem 0;
+}
+
+.multicolumn-card__title {
+  font-family: var(--shrine-font-heading);
+  font-size: 2rem;
+  color: var(--shrine-purple-deep);
+}
+
+.multicolumn-card {
+  text-align: center;
+  padding: 3.2rem 2.4rem;
+  border-radius: var(--shrine-radius-md);
+  background: var(--shrine-white);
+  transition: box-shadow var(--shrine-transition), transform var(--shrine-transition);
+}
+
+.multicolumn-card:hover {
+  box-shadow: 0 8px 32px rgba(123, 94, 167, 0.15);
+  transform: translateY(-4px);
+}
+
+/* ---------- Countdown timer ---------- */
+.shrine-countdown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  font-family: var(--shrine-font-body);
+}
+
+.shrine-countdown__unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 4rem;
+}
+
+.shrine-countdown__number {
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--shrine-purple-light);
+}
+
+.shrine-countdown__label {
+  font-size: 0.9rem;
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.shrine-countdown__sep {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--shrine-purple-light);
+  margin-bottom: 1.2rem;
+}
+
+/* ---------- Logo bar ---------- */
+.shrine-logo-bar {
+  background: var(--shrine-white);
+  padding: 3.2rem 0;
+  border-top: 1px solid rgba(123, 94, 167, 0.1);
+  border-bottom: 1px solid rgba(123, 94, 167, 0.1);
+  overflow: hidden;
+}
+
+.shrine-logo-bar__track {
+  display: flex;
+  align-items: center;
+  gap: 6rem;
+  animation: logo-scroll 24s linear infinite;
+  width: max-content;
+}
+
+.shrine-logo-bar__track:hover {
+  animation-play-state: paused;
+}
+
+.shrine-logo-bar__item {
+  font-family: var(--shrine-font-heading);
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(45, 27, 78, 0.35);
+  white-space: nowrap;
+  transition: color var(--shrine-transition);
+}
+
+.shrine-logo-bar__item:hover {
+  color: var(--shrine-purple-mid);
+}
+
+@keyframes logo-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ---------- Sección de estadísticas ---------- */
+.shrine-stats {
+  background: var(--shrine-purple-deep);
+  padding: 8rem 0;
+  text-align: center;
+}
+
+.shrine-stats__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4rem;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.shrine-stats__number {
+  font-family: var(--shrine-font-heading);
+  font-size: clamp(4rem, 7vw, 7rem);
+  font-weight: 600;
+  color: var(--shrine-purple-light);
+  line-height: 1;
+  display: block;
+}
+
+.shrine-stats__label {
+  font-family: var(--shrine-font-body);
+  font-size: 1.4rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 1rem;
+  letter-spacing: 0.04em;
+}
+
+/* ---------- Testimonios ---------- */
+.shrine-testimonials {
+  background: var(--shrine-purple-pale);
+  padding: 8rem 0;
+}
+
+.shrine-testimonial-card {
+  background: var(--shrine-white);
+  border-radius: var(--shrine-radius-md);
+  padding: 4rem;
+  box-shadow: 0 4px 24px rgba(45, 27, 78, 0.06);
+  transition: box-shadow var(--shrine-transition);
+}
+
+.shrine-testimonial-card:hover {
+  box-shadow: 0 12px 40px rgba(45, 27, 78, 0.12);
+}
+
+.shrine-testimonial-card__stars {
+  color: var(--shrine-purple-mid);
+  font-size: 1.8rem;
+  margin-bottom: 1.6rem;
+}
+
+.shrine-testimonial-card__text {
+  font-family: var(--shrine-font-heading);
+  font-size: 2rem;
+  font-style: italic;
+  color: var(--shrine-purple-deep);
+  line-height: 1.5;
+  margin-bottom: 2.4rem;
+}
+
+.shrine-testimonial-card__author {
+  font-family: var(--shrine-font-body);
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--shrine-purple-mid);
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  background: var(--shrine-purple-deep);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.footer__heading {
+  font-family: var(--shrine-font-heading);
+  font-size: 1.6rem;
+  color: var(--shrine-white);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.footer a {
+  color: rgba(255, 255, 255, 0.65);
+  transition: color var(--shrine-transition);
+}
+
+.footer a:hover {
+  color: var(--shrine-purple-light);
+}
+
+.footer__newsletter-form input[type="email"] {
+  border-radius: var(--shrine-radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--shrine-white);
+  padding: 1.2rem 2rem;
+}
+
+.footer__newsletter-form .button {
+  border-radius: var(--shrine-radius-pill);
+  background: var(--shrine-purple-mid);
+  color: var(--shrine-white);
+}
+
+/* ---------- Reveal on scroll ---------- */
+.shrine-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.shrine-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 749px) {
+  .slideshow__slide {
+    min-height: 60vh;
+  }
+
+  .shrine-stats__grid {
+    grid-template-columns: 1fr;
+    gap: 3.2rem;
+  }
+
+  .shrine-logo-bar__track {
+    gap: 4rem;
+  }
+}

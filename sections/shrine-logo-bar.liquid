@@ -1,0 +1,47 @@
+{{ 'shrine-custom.css' | asset_url | stylesheet_tag }}
+
+<div class="shrine-logo-bar">
+  <div class="shrine-logo-bar__track" aria-hidden="true">
+    {%- for i in (1..2) -%}
+      {%- for block in section.blocks -%}
+        <span class="shrine-logo-bar__item">{{ block.settings.label }}</span>
+      {%- endfor -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Logo Bar",
+  "tag": "section",
+  "class": "shrine-logo-bar-section",
+  "max_blocks": 12,
+  "blocks": [
+    {
+      "type": "brand",
+      "name": "Marca",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Nombre de marca",
+          "default": "Vogue Baby"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Logo Bar",
+      "blocks": [
+        { "type": "brand", "settings": { "label": "Vogue Baby" } },
+        { "type": "brand", "settings": { "label": "Little Luxe" } },
+        { "type": "brand", "settings": { "label": "Tiny Threads" } },
+        { "type": "brand", "settings": { "label": "Bebé & Co" } },
+        { "type": "brand", "settings": { "label": "Dreamy Kids" } },
+        { "type": "brand", "settings": { "label": "Cloud Nine" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

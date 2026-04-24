@@ -1,0 +1,50 @@
+{{ 'shrine-custom.css' | asset_url | stylesheet_tag }}
+
+<section class="shrine-stats">
+  <div class="shrine-stats__grid">
+    {%- for block in section.blocks -%}
+      <div class="shrine-reveal" {{ block.shopify_attributes }}>
+        <span class="shrine-stats__number">{{ block.settings.number }}</span>
+        <p class="shrine-stats__label">{{ block.settings.label }}</p>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Estadísticas",
+  "tag": "section",
+  "max_blocks": 3,
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Estadística",
+      "settings": [
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Número / Porcentaje",
+          "default": "98%"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Descripción",
+          "default": "Clientes satisfechos"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Estadísticas",
+      "blocks": [
+        { "type": "stat", "settings": { "number": "98%", "label": "Clientes satisfechos" } },
+        { "type": "stat", "settings": { "number": "50K+", "label": "Bebés felices" } },
+        { "type": "stat", "settings": { "number": "4.9★", "label": "Valoración media" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

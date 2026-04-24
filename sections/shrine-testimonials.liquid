@@ -1,0 +1,77 @@
+{{ 'shrine-custom.css' | asset_url | stylesheet_tag }}
+
+<section class="shrine-testimonials">
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="shrine-reveal" style="text-align:center; margin-bottom:4rem; font-family:var(--shrine-font-heading); font-size:clamp(2.8rem,5vw,4.8rem); color:var(--shrine-purple-deep);">
+        {{ section.settings.heading }}
+      </h2>
+    {%- endif -%}
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(28rem, 1fr)); gap:2.4rem;">
+      {%- for block in section.blocks -%}
+        <div class="shrine-testimonial-card shrine-reveal" {{ block.shopify_attributes }}>
+          <div class="shrine-testimonial-card__stars">
+            {%- for i in (1..block.settings.stars) -%}★{%- endfor -%}
+          </div>
+          <p class="shrine-testimonial-card__text">"{{ block.settings.quote }}"</p>
+          <span class="shrine-testimonial-card__author">— {{ block.settings.author }}</span>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Testimonios",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "Lo que dicen las mamás"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonio",
+      "settings": [
+        {
+          "type": "range",
+          "id": "stars",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Estrellas",
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Texto del testimonio",
+          "default": "Los mejores productos para mi bebé. Calidad increíble y entrega rapidísima."
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Nombre del cliente",
+          "default": "María G."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonios",
+      "blocks": [
+        { "type": "testimonial", "settings": { "stars": 5, "quote": "Los mejores productos para mi bebé. Calidad increíble y entrega rapidísima.", "author": "María G." } },
+        { "type": "testimonial", "settings": { "stars": 5, "quote": "Me encantó la suavidad de la ropa, mi niña duerme perfectamente. 100% recomendado.", "author": "Laura P." } },
+        { "type": "testimonial", "settings": { "stars": 5, "quote": "Diseños preciosos y muy seguros. Sin duda la mejor tienda de bebés que encontré.", "author": "Sofía R." } }
+      ]
+    }
+  ]
+}
+{% endschema %}
