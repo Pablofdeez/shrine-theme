@@ -1,0 +1,309 @@
+{{ 'shrine-custom.css' | asset_url | stylesheet_tag }}
+
+<style>
+  .promo-popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(45,27,78,0.5);
+    z-index: 9998;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+  .promo-popup-overlay.is-open {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .promo-popup {
+    background: var(--shrine-bg);
+    border-radius: var(--shrine-radius-md);
+    max-width: 52rem;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    transform: translateY(24px) scale(0.97);
+    transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+    box-shadow: 0 24px 80px rgba(45,27,78,0.25);
+  }
+  .promo-popup-overlay.is-open .promo-popup {
+    transform: translateY(0) scale(1);
+  }
+  .promo-popup__accent {
+    height: 6px;
+    background: linear-gradient(90deg, var(--shrine-purple-deep), var(--shrine-purple-mid), var(--shrine-purple-light));
+  }
+  .promo-popup__body {
+    padding: 4rem;
+    text-align: center;
+  }
+  .promo-popup__emoji {
+    font-size: 4rem;
+    display: block;
+    margin-bottom: 1.6rem;
+  }
+  .promo-popup__heading {
+    font-family: var(--shrine-font-heading);
+    font-size: 3.2rem;
+    color: var(--shrine-purple-deep);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+  .promo-popup__text {
+    font-family: var(--shrine-font-body);
+    font-size: 1.5rem;
+    color: rgba(45,27,78,0.7);
+    margin-bottom: 2.8rem;
+    line-height: 1.6;
+  }
+  .promo-popup__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+  .promo-popup__input {
+    width: 100%;
+    padding: 1.4rem 2rem;
+    border: 2px solid rgba(123,94,167,0.3);
+    border-radius: var(--shrine-radius-pill);
+    font-family: var(--shrine-font-body);
+    font-size: 1.5rem;
+    color: var(--shrine-purple-deep);
+    background: var(--shrine-white);
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+  }
+  .promo-popup__input:focus {
+    border-color: var(--shrine-purple-mid);
+  }
+  .promo-popup__btn {
+    width: 100%;
+    padding: 1.4rem 2rem;
+    background: var(--shrine-purple-mid);
+    color: #fff;
+    border: none;
+    border-radius: var(--shrine-radius-pill);
+    font-family: var(--shrine-font-body);
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .promo-popup__btn:hover {
+    background: var(--shrine-purple-deep);
+    transform: translateY(-2px);
+  }
+  .promo-popup__skip {
+    margin-top: 1.6rem;
+    font-family: var(--shrine-font-body);
+    font-size: 1.2rem;
+    color: rgba(45,27,78,0.45);
+    text-decoration: underline;
+    cursor: pointer;
+    border: none;
+    background: none;
+    display: block;
+    margin-inline: auto;
+  }
+  .promo-popup__close {
+    position: absolute;
+    top: 1.6rem;
+    right: 1.6rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 2rem;
+    color: rgba(45,27,78,0.4);
+    line-height: 1;
+    padding: 0.4rem;
+    transition: color 0.2s;
+  }
+  .promo-popup__close:hover { color: var(--shrine-purple-deep); }
+  .promo-popup__success {
+    display: none;
+    padding: 4rem;
+    text-align: center;
+  }
+  .promo-popup__success-emoji { font-size: 5rem; display: block; margin-bottom: 1.6rem; }
+  .promo-popup__code {
+    display: inline-block;
+    padding: 1rem 2.4rem;
+    background: var(--shrine-purple-pale);
+    border: 2px dashed var(--shrine-purple-mid);
+    border-radius: var(--shrine-radius-sm);
+    font-family: var(--shrine-font-body);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--shrine-purple-deep);
+    letter-spacing: 0.12em;
+    margin: 1.6rem 0;
+  }
+</style>
+
+{%- if section.settings.enabled -%}
+<div class="promo-popup-overlay" id="PromoPopup" role="dialog" aria-modal="true" aria-label="{{ section.settings.heading | escape }}">
+  <div class="promo-popup">
+    <div class="promo-popup__accent"></div>
+    <button class="promo-popup__close" id="PromoPopupClose" aria-label="Cerrar">✕</button>
+
+    <div class="promo-popup__body" id="PromoPopupForm">
+      {%- if section.settings.emoji != blank -%}
+        <span class="promo-popup__emoji">{{ section.settings.emoji }}</span>
+      {%- endif -%}
+      <h2 class="promo-popup__heading">{{ section.settings.heading }}</h2>
+      <p class="promo-popup__text">{{ section.settings.subtext }}</p>
+
+      <form class="promo-popup__form" id="PromoForm">
+        <input
+          type="email"
+          class="promo-popup__input"
+          placeholder="{{ section.settings.placeholder }}"
+          required
+          aria-label="Email"
+        >
+        <button type="submit" class="promo-popup__btn">{{ section.settings.btn_label }}</button>
+      </form>
+      <button class="promo-popup__skip" id="PromoPopupSkip">{{ section.settings.skip_label }}</button>
+    </div>
+
+    <div class="promo-popup__success" id="PromoPopupSuccess">
+      <span class="promo-popup__success-emoji">🎉</span>
+      <h2 class="promo-popup__heading">{{ section.settings.success_heading }}</h2>
+      <p class="promo-popup__text">{{ section.settings.success_text }}</p>
+      {%- if section.settings.discount_code != blank -%}
+        <div class="promo-popup__code">{{ section.settings.discount_code }}</div>
+      {%- endif -%}
+      <button class="promo-popup__btn" id="PromoPopupDone" style="max-width:20rem;margin:0 auto;">Ir a la tienda</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var STORAGE_KEY = 'shrine_popup_dismissed';
+  var delay = {{ section.settings.delay_seconds | times: 1000 }};
+  var overlay = document.getElementById('PromoPopup');
+  if (!overlay) return;
+
+  function open() { overlay.classList.add('is-open'); document.body.style.overflow = 'hidden'; }
+  function close() { overlay.classList.remove('is-open'); document.body.style.overflow = ''; sessionStorage.setItem(STORAGE_KEY, '1'); }
+
+  if (!sessionStorage.getItem(STORAGE_KEY)) {
+    setTimeout(open, delay);
+  }
+
+  document.getElementById('PromoPopupClose').addEventListener('click', close);
+  document.getElementById('PromoPopupSkip').addEventListener('click', close);
+  overlay.addEventListener('click', function(e){ if (e.target === overlay) close(); });
+
+  document.getElementById('PromoForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    document.getElementById('PromoPopupForm').style.display = 'none';
+    document.getElementById('PromoPopupSuccess').style.display = 'block';
+  });
+
+  document.getElementById('PromoPopupDone').addEventListener('click', close);
+
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
+})();
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Popup Promocional",
+  "tag": "section",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enabled",
+      "label": "Activar popup",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "delay_seconds",
+      "min": 2,
+      "max": 30,
+      "step": 1,
+      "unit": "s",
+      "label": "Retraso antes de mostrar",
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "Contenido"
+    },
+    {
+      "type": "text",
+      "id": "emoji",
+      "label": "Emoji",
+      "default": "🍼"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "¡Bienvenida, mamá!"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subtexto",
+      "default": "Suscríbete y obtén un 10% de descuento en tu primer pedido. Productos 100% seguros para tu bebé."
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Placeholder del email",
+      "default": "tu@email.com"
+    },
+    {
+      "type": "text",
+      "id": "btn_label",
+      "label": "Texto del botón",
+      "default": "Obtener mi 10% de descuento"
+    },
+    {
+      "type": "text",
+      "id": "skip_label",
+      "label": "Texto para saltarse el popup",
+      "default": "No gracias, prefiero pagar precio completo"
+    },
+    {
+      "type": "header",
+      "content": "Pantalla de éxito"
+    },
+    {
+      "type": "text",
+      "id": "success_heading",
+      "label": "Título de confirmación",
+      "default": "¡Tu descuento está listo!"
+    },
+    {
+      "type": "text",
+      "id": "success_text",
+      "label": "Texto de confirmación",
+      "default": "Usa este código en tu próximo pedido:"
+    },
+    {
+      "type": "text",
+      "id": "discount_code",
+      "label": "Código de descuento",
+      "default": "BEBE10"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Popup Promocional"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,162 @@
+{{ 'shrine-custom.css' | asset_url | stylesheet_tag }}
+
+<style>
+  .text-ticker {
+    background: {{ section.settings.bg_color }};
+    padding: {{ section.settings.padding_v }}px 0;
+    overflow: hidden;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .text-ticker__track {
+    display: flex;
+    width: max-content;
+    animation: ticker-scroll {{ section.settings.speed }}s linear infinite;
+  }
+  .text-ticker__track:hover {
+    animation-play-state: {{ section.settings.pause_on_hover | default: true | json }};
+  }
+  .text-ticker__group {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-shrink: 0;
+  }
+  .text-ticker__item {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 0 3.2rem;
+    font-family: var(--shrine-font-body);
+    font-size: {{ section.settings.font_size }}px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: {{ section.settings.text_color }};
+    white-space: nowrap;
+  }
+  .text-ticker__sep {
+    color: {{ section.settings.sep_color }};
+    font-size: 1.2em;
+    opacity: 0.6;
+  }
+  @keyframes ticker-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+</style>
+
+<div class="text-ticker" aria-hidden="true">
+  <div class="text-ticker__track">
+    {%- for i in (1..2) -%}
+      <div class="text-ticker__group">
+        {%- for block in section.blocks -%}
+          <span class="text-ticker__item" {{ block.shopify_attributes }}>
+            {%- if block.settings.icon != blank -%}
+              <span>{{ block.settings.icon }}</span>
+            {%- endif -%}
+            {{ block.settings.text }}
+          </span>
+          <span class="text-ticker__sep">{{ section.settings.separator }}</span>
+        {%- endfor -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Text Ticker",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Color de fondo",
+      "default": "#7B5EA7"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Color de texto",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "sep_color",
+      "label": "Color separador",
+      "default": "#C9B0E8"
+    },
+    {
+      "type": "text",
+      "id": "separator",
+      "label": "Separador entre items",
+      "default": "✦"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "s",
+      "label": "Velocidad",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Tamaño de fuente",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "padding_v",
+      "min": 8,
+      "max": 32,
+      "step": 4,
+      "unit": "px",
+      "label": "Espaciado vertical",
+      "default": 16
+    }
+  ],
+  "max_blocks": 12,
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Texto",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Emoji (opcional)",
+          "default": "🌿"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Texto",
+          "default": "Envío gratis en pedidos +50€"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Text Ticker",
+      "blocks": [
+        { "type": "item", "settings": { "icon": "🌿", "text": "100% Orgánico" } },
+        { "type": "item", "settings": { "icon": "🚚", "text": "Envío gratis +50€" } },
+        { "type": "item", "settings": { "icon": "🛡️", "text": "Certificado de seguridad" } },
+        { "type": "item", "settings": { "icon": "💜", "text": "Hipoalergénico" } },
+        { "type": "item", "settings": { "icon": "⭐", "text": "4.9 en valoraciones" } },
+        { "type": "item", "settings": { "icon": "↩️", "text": "Devolución 30 días" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

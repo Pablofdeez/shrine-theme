@@ -1,0 +1,139 @@
+{{ 'shrine-custom.css' | asset_url | stylesheet_tag }}
+
+<style>
+  .trust-bar {
+    background: {{ section.settings.bg_color }};
+    padding: {{ section.settings.padding_v }}px 0;
+    border-top: 1px solid rgba(123,94,167,0.1);
+    border-bottom: 1px solid rgba(123,94,167,0.1);
+  }
+  .trust-bar__grid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.6rem 4rem;
+    max-width: var(--page-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  .trust-bar__item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-shrink: 0;
+  }
+  .trust-bar__icon {
+    font-size: {{ section.settings.icon_size }}px;
+    line-height: 1;
+  }
+  .trust-bar__text {
+    font-family: var(--shrine-font-body);
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: {{ section.settings.text_color }};
+    white-space: nowrap;
+  }
+  .trust-bar__divider {
+    width: 1px;
+    height: 2.4rem;
+    background: rgba(123,94,167,0.2);
+    flex-shrink: 0;
+  }
+  @media (max-width: 749px) {
+    .trust-bar__divider { display: none; }
+    .trust-bar__grid { gap: 1.2rem 2.4rem; }
+  }
+</style>
+
+<div class="trust-bar">
+  <div class="trust-bar__grid">
+    {%- for block in section.blocks -%}
+      {%- unless forloop.first -%}
+        <div class="trust-bar__divider" aria-hidden="true"></div>
+      {%- endunless -%}
+      <div class="trust-bar__item" {{ block.shopify_attributes }}>
+        {%- if block.settings.icon != blank -%}
+          <span class="trust-bar__icon">{{ block.settings.icon }}</span>
+        {%- endif -%}
+        <span class="trust-bar__text">{{ block.settings.text }}</span>
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Trust Bar",
+  "tag": "section",
+  "max_blocks": 8,
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Color de fondo",
+      "default": "#FDFAFF"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Color de texto",
+      "default": "#2D1B4E"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 16,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Tamaño del icono",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_v",
+      "min": 8,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Espaciado vertical",
+      "default": 20
+    }
+  ],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Badge de confianza",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Emoji / Icono",
+          "default": "🌿"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Texto",
+          "default": "100% Orgánico"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust Bar",
+      "blocks": [
+        { "type": "badge", "settings": { "icon": "🌿", "text": "100% Orgánico" } },
+        { "type": "badge", "settings": { "icon": "🚚", "text": "Envío gratis +50€" } },
+        { "type": "badge", "settings": { "icon": "🛡️", "text": "Certificado seguro" } },
+        { "type": "badge", "settings": { "icon": "💜", "text": "Hipoalergénico" } },
+        { "type": "badge", "settings": { "icon": "↩️", "text": "Devolución 30 días" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
